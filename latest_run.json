@@ -1,0 +1,55 @@
+﻿{
+  "strategy": "small-pool",
+  "expected_score": 196.6,
+  "win_rate": 0.04,
+  "top_decile_rate": 0.143,
+  "title_odds_top_10": [
+    {
+      "Duke": 0.3315
+    },
+    {
+      "Florida": 0.2445
+    },
+    {
+      "Arizona": 0.219
+    },
+    {
+      "Michigan": 0.1815
+    },
+    {
+      "Maryland": 0.0055
+    },
+    {
+      "Clemson": 0.0045
+    },
+    {
+      "Texas A&M": 0.004
+    },
+    {
+      "Saint Mary's": 0.0025
+    },
+    {
+      "Oregon": 0.002
+    },
+    {
+      "Memphis": 0.002
+    }
+  ],
+  "recommended_bracket": {
+    "E1": "Duke",
+    "E2": "Oregon",
+    "W1": "Arizona",
+    "W2": "Saint Mary's",
+    "S1": "Florida",
+    "S2": "Memphis",
+    "M1": "Michigan",
+    "M2": "Maryland",
+    "E3": "Duke",
+    "W3": "Arizona",
+    "S3": "Florida",
+    "M3": "Michigan",
+    "F1": "Duke",
+    "F2": "Florida",
+    "C1": "Duke"
+  }
+}

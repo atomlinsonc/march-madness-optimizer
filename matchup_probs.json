@@ -1,0 +1,722 @@
+[
+  {
+    "team_a": "Duke",
+    "team_b": "VCU",
+    "team_a_win_probability": 0.9075,
+    "team_b_win_probability": 0.0925
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Oregon",
+    "team_a_win_probability": 0.9012,
+    "team_b_win_probability": 0.0988
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Mississippi State",
+    "team_a_win_probability": 0.9602,
+    "team_b_win_probability": 0.0398
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Michigan",
+    "team_a_win_probability": 0.5835,
+    "team_b_win_probability": 0.4165
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Maryland",
+    "team_a_win_probability": 0.8643,
+    "team_b_win_probability": 0.1357
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.8749,
+    "team_b_win_probability": 0.1251
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.9643,
+    "team_b_win_probability": 0.0357
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.5482,
+    "team_b_win_probability": 0.4518
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.8882,
+    "team_b_win_probability": 0.1118
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.9058,
+    "team_b_win_probability": 0.0942
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.9701,
+    "team_b_win_probability": 0.0299
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.563,
+    "team_b_win_probability": 0.437
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.8625,
+    "team_b_win_probability": 0.1375
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.8485,
+    "team_b_win_probability": 0.1515
+  },
+  {
+    "team_a": "Duke",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.9669,
+    "team_b_win_probability": 0.0331
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Oregon",
+    "team_a_win_probability": 0.4779,
+    "team_b_win_probability": 0.5221
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Mississippi State",
+    "team_a_win_probability": 0.7099,
+    "team_b_win_probability": 0.2901
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Michigan",
+    "team_a_win_probability": 0.1233,
+    "team_b_win_probability": 0.8767
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Maryland",
+    "team_a_win_probability": 0.39,
+    "team_b_win_probability": 0.61
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.4126,
+    "team_b_win_probability": 0.5874
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.7308,
+    "team_b_win_probability": 0.2692
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.1093,
+    "team_b_win_probability": 0.8907
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.4474,
+    "team_b_win_probability": 0.5526
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.4948,
+    "team_b_win_probability": 0.5052
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.7651,
+    "team_b_win_probability": 0.2349
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.116,
+    "team_b_win_probability": 0.884
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.3872,
+    "team_b_win_probability": 0.6128
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.3598,
+    "team_b_win_probability": 0.6402
+  },
+  {
+    "team_a": "VCU",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.7486,
+    "team_b_win_probability": 0.2514
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Mississippi State",
+    "team_a_win_probability": 0.7248,
+    "team_b_win_probability": 0.2752
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Michigan",
+    "team_a_win_probability": 0.1332,
+    "team_b_win_probability": 0.8668
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Maryland",
+    "team_a_win_probability": 0.4113,
+    "team_b_win_probability": 0.5887
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.4342,
+    "team_b_win_probability": 0.5658
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.7475,
+    "team_b_win_probability": 0.2525
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.1171,
+    "team_b_win_probability": 0.8829
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.4648,
+    "team_b_win_probability": 0.5352
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.5123,
+    "team_b_win_probability": 0.4877
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.7806,
+    "team_b_win_probability": 0.2194
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.1234,
+    "team_b_win_probability": 0.8766
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.4066,
+    "team_b_win_probability": 0.5934
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.3804,
+    "team_b_win_probability": 0.6196
+  },
+  {
+    "team_a": "Oregon",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.7616,
+    "team_b_win_probability": 0.2384
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Michigan",
+    "team_a_win_probability": 0.0543,
+    "team_b_win_probability": 0.9457
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Maryland",
+    "team_a_win_probability": 0.2072,
+    "team_b_win_probability": 0.7928
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.223,
+    "team_b_win_probability": 0.777
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.526,
+    "team_b_win_probability": 0.474
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.0478,
+    "team_b_win_probability": 0.9522
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.2479,
+    "team_b_win_probability": 0.7521
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.2851,
+    "team_b_win_probability": 0.7149
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.571,
+    "team_b_win_probability": 0.429
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.0507,
+    "team_b_win_probability": 0.9493
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.2052,
+    "team_b_win_probability": 0.7948
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.1868,
+    "team_b_win_probability": 0.8132
+  },
+  {
+    "team_a": "Mississippi State",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.548,
+    "team_b_win_probability": 0.452
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Maryland",
+    "team_a_win_probability": 0.8197,
+    "team_b_win_probability": 0.1803
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.8332,
+    "team_b_win_probability": 0.1668
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.9505,
+    "team_b_win_probability": 0.0495
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.4623,
+    "team_b_win_probability": 0.5377
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.8492,
+    "team_b_win_probability": 0.1508
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.872,
+    "team_b_win_probability": 0.128
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.9586,
+    "team_b_win_probability": 0.0414
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.4772,
+    "team_b_win_probability": 0.5228
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.8163,
+    "team_b_win_probability": 0.1837
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.7998,
+    "team_b_win_probability": 0.2002
+  },
+  {
+    "team_a": "Michigan",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.9539,
+    "team_b_win_probability": 0.0461
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Clemson",
+    "team_a_win_probability": 0.5223,
+    "team_b_win_probability": 0.4777
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.8071,
+    "team_b_win_probability": 0.1929
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.1579,
+    "team_b_win_probability": 0.8421
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.5511,
+    "team_b_win_probability": 0.4489
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.5975,
+    "team_b_win_probability": 0.4025
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.8357,
+    "team_b_win_probability": 0.1643
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.166,
+    "team_b_win_probability": 0.834
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.492,
+    "team_b_win_probability": 0.508
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.4678,
+    "team_b_win_probability": 0.5322
+  },
+  {
+    "team_a": "Maryland",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.8187,
+    "team_b_win_probability": 0.1813
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Utah State",
+    "team_a_win_probability": 0.7928,
+    "team_b_win_probability": 0.2072
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.1463,
+    "team_b_win_probability": 0.8537
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.5289,
+    "team_b_win_probability": 0.4711
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.5759,
+    "team_b_win_probability": 0.4241
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.8226,
+    "team_b_win_probability": 0.1774
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.154,
+    "team_b_win_probability": 0.846
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.4697,
+    "team_b_win_probability": 0.5303
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.4445,
+    "team_b_win_probability": 0.5555
+  },
+  {
+    "team_a": "Clemson",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.805,
+    "team_b_win_probability": 0.195
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Florida",
+    "team_a_win_probability": 0.0429,
+    "team_b_win_probability": 0.9571
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.2268,
+    "team_b_win_probability": 0.7732
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.2619,
+    "team_b_win_probability": 0.7381
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.5453,
+    "team_b_win_probability": 0.4547
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.0454,
+    "team_b_win_probability": 0.9546
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.188,
+    "team_b_win_probability": 0.812
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.1715,
+    "team_b_win_probability": 0.8285
+  },
+  {
+    "team_a": "Utah State",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.519,
+    "team_b_win_probability": 0.481
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Memphis",
+    "team_a_win_probability": 0.8675,
+    "team_b_win_probability": 0.1325
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.8879,
+    "team_b_win_probability": 0.1121
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.9637,
+    "team_b_win_probability": 0.0363
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.5149,
+    "team_b_win_probability": 0.4851
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.8374,
+    "team_b_win_probability": 0.1626
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.8208,
+    "team_b_win_probability": 0.1792
+  },
+  {
+    "team_a": "Florida",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.9601,
+    "team_b_win_probability": 0.0399
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "Illinois",
+    "team_a_win_probability": 0.5474,
+    "team_b_win_probability": 0.4526
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.8003,
+    "team_b_win_probability": 0.1997
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.1395,
+    "team_b_win_probability": 0.8605
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.4374,
+    "team_b_win_probability": 0.5626
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.4088,
+    "team_b_win_probability": 0.5912
+  },
+  {
+    "team_a": "Memphis",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.7862,
+    "team_b_win_probability": 0.2138
+  },
+  {
+    "team_a": "Illinois",
+    "team_b": "Boise State",
+    "team_a_win_probability": 0.7662,
+    "team_b_win_probability": 0.2338
+  },
+  {
+    "team_a": "Illinois",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.1178,
+    "team_b_win_probability": 0.8822
+  },
+  {
+    "team_a": "Illinois",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.3887,
+    "team_b_win_probability": 0.6113
+  },
+  {
+    "team_a": "Illinois",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.3612,
+    "team_b_win_probability": 0.6388
+  },
+  {
+    "team_a": "Illinois",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.7512,
+    "team_b_win_probability": 0.2488
+  },
+  {
+    "team_a": "Boise State",
+    "team_b": "Arizona",
+    "team_a_win_probability": 0.0377,
+    "team_b_win_probability": 0.9623
+  },
+  {
+    "team_a": "Boise State",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.16,
+    "team_b_win_probability": 0.84
+  },
+  {
+    "team_a": "Boise State",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.1472,
+    "team_b_win_probability": 0.8528
+  },
+  {
+    "team_a": "Boise State",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.4703,
+    "team_b_win_probability": 0.5297
+  },
+  {
+    "team_a": "Arizona",
+    "team_b": "Texas A&M",
+    "team_a_win_probability": 0.8264,
+    "team_b_win_probability": 0.1736
+  },
+  {
+    "team_a": "Arizona",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.809,
+    "team_b_win_probability": 0.191
+  },
+  {
+    "team_a": "Arizona",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.9576,
+    "team_b_win_probability": 0.0424
+  },
+  {
+    "team_a": "Texas A&M",
+    "team_b": "Saint Mary's",
+    "team_a_win_probability": 0.4707,
+    "team_b_win_probability": 0.5293
+  },
+  {
+    "team_a": "Texas A&M",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.8234,
+    "team_b_win_probability": 0.1766
+  },
+  {
+    "team_a": "Saint Mary's",
+    "team_b": "New Mexico",
+    "team_a_win_probability": 0.8347,
+    "team_b_win_probability": 0.1653
+  }
+]
