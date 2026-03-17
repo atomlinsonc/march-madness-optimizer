@@ -264,7 +264,47 @@ class Tournament:
         return sorted(self.teams.values(), key=lambda team: (team.region, team.seed, team.name))
 
     def matchup_matrix(self, model: ProbabilityModel) -> list[dict[str, object]]:
-        return model.all_matchups(self.ordered_teams())
+        return self.tournament_matchup_matrix(model)
+
+    def tournament_matchup_matrix(self, model: ProbabilityModel) -> list[dict[str, object]]:
+        rows: list[dict[str, object]] = []
+        winner_cache: dict[str, dict[str, float]] = {}
+        for game in self.games:
+            left_distribution = self._slot_distribution(game.slot_a, model, winner_cache)
+            right_distribution = self._slot_distribution(game.slot_b, model, winner_cache)
+            for left_team, left_reach_probability in left_distribution.items():
+                for right_team, right_reach_probability in right_distribution.items():
+                    matchup_probability = left_reach_probability * right_reach_probability
+                    if matchup_probability <= 0:
+                        continue
+                    team_a = self.teams[left_team]
+                    team_b = self.teams[right_team]
+                    team_a_win_probability = model.probability(team_a, team_b, round_index=game.round_index)
+                    rows.append(
+                        {
+                            "game_id": game.game_id,
+                            "round_index": game.round_index,
+                            "round_name": ROUND_NAMES[game.round_index],
+                            "region": game.region,
+                            "team_a": left_team,
+                            "team_b": right_team,
+                            "team_a_reach_probability": round(left_reach_probability, 4),
+                            "team_b_reach_probability": round(right_reach_probability, 4),
+                            "matchup_probability": round(matchup_probability, 4),
+                            "team_a_win_probability": round(team_a_win_probability, 4),
+                            "team_b_win_probability": round(1.0 - team_a_win_probability, 4),
+                        }
+                    )
+        rows.sort(
+            key=lambda row: (
+                int(row["round_index"]),
+                -float(row["matchup_probability"]),
+                str(row["game_id"]),
+                str(row["team_a"]),
+                str(row["team_b"]),
+            )
+        )
+        return rows
 
     def chalk_bracket(self, model: ProbabilityModel) -> dict[str, str]:
         resolved: dict[str, str] = {}
@@ -319,9 +359,59 @@ class Tournament:
             }
         return summary
 
+    def exact_advancement_summary(self, model: ProbabilityModel) -> dict[str, dict[str, float]]:
+        winner_cache: dict[str, dict[str, float]] = {}
+        counts: dict[str, dict[int, float]] = {name: {round_index: 0.0 for round_index in self.scoring} for name in self.teams}
+        for game in self.games:
+            winner_distribution = self._winner_distribution(game, model, winner_cache)
+            for team_name, probability in winner_distribution.items():
+                counts[team_name][game.round_index] += probability
+        summary: dict[str, dict[str, float]] = {}
+        for team_name, per_round in counts.items():
+            summary[team_name] = {
+                ROUND_NAMES[round_index]: round(per_round[round_index], 4)
+                for round_index in sorted(per_round)
+            }
+        return summary
+
     def _resolve_slot(self, slot: str, resolved: dict[str, str]) -> TeamProfile:
         team_name = resolved.get(slot, slot)
         return self.teams[team_name]
+
+    def _slot_distribution(
+        self,
+        slot: str,
+        model: ProbabilityModel,
+        winner_cache: dict[str, dict[str, float]],
+    ) -> dict[str, float]:
+        if slot in self.teams:
+            return {slot: 1.0}
+        game = next(game for game in self.games if game.game_id == slot)
+        return self._winner_distribution(game, model, winner_cache)
+
+    def _winner_distribution(
+        self,
+        game: GameNode,
+        model: ProbabilityModel,
+        winner_cache: dict[str, dict[str, float]],
+    ) -> dict[str, float]:
+        if game.game_id in winner_cache:
+            return winner_cache[game.game_id]
+        left_distribution = self._slot_distribution(game.slot_a, model, winner_cache)
+        right_distribution = self._slot_distribution(game.slot_b, model, winner_cache)
+        winners: dict[str, float] = {}
+        for left_team, left_reach_probability in left_distribution.items():
+            for right_team, right_reach_probability in right_distribution.items():
+                matchup_probability = left_reach_probability * right_reach_probability
+                if matchup_probability <= 0:
+                    continue
+                team_a = self.teams[left_team]
+                team_b = self.teams[right_team]
+                team_a_win_probability = model.probability(team_a, team_b, round_index=game.round_index)
+                winners[left_team] = winners.get(left_team, 0.0) + (matchup_probability * team_a_win_probability)
+                winners[right_team] = winners.get(right_team, 0.0) + (matchup_probability * (1.0 - team_a_win_probability))
+        winner_cache[game.game_id] = winners
+        return winners
 
     def _public_probability(self, team_a: TeamProfile, team_b: TeamProfile, base_probability: float) -> float:
         market_bias = 0.10 * (team_a.seed < team_b.seed) - 0.10 * (team_b.seed < team_a.seed)

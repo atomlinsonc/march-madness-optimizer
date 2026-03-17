@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import random
 from pathlib import Path
 
 from .bracket import ROUND_NAMES, Tournament
@@ -39,9 +38,7 @@ def main() -> None:
         entries=args.entries,
         simulations=args.simulations,
     )
-    advancement = tournament.advancement_summary(
-        tournament.simulate_outcome(model, random.Random(1000 + i)) for i in range(args.simulations)
-    )
+    advancement = tournament.exact_advancement_summary(model)
     championship_label = ROUND_NAMES[max(tournament.scoring)]
     title_odds = sorted(
         ((team, rounds[championship_label]) for team, rounds in advancement.items()),
@@ -55,6 +52,13 @@ def main() -> None:
         "win_rate": round(result.win_rate, 4),
         "top_decile_rate": round(result.top_decile_rate, 4),
         "title_odds_top_10": [{team: probability} for team, probability in title_odds],
+        "advancement_odds_top_16": {
+            team: advancement[team] for team, _ in sorted(
+                ((team, rounds[championship_label]) for team, rounds in advancement.items()),
+                key=lambda item: item[1],
+                reverse=True,
+            )[:16]
+        },
         "recommended_bracket": result.bracket,
     }
     print(json.dumps(output, indent=2))

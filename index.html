@@ -448,13 +448,14 @@
         <section class="card section" style="margin-top: 20px;">
             <div class="section-head">
                 <div>
-                    <h2 class="section-title">Matchup Explorer</h2>
-                    <div class="section-note">Search by team name and sort by strongest edge.</div>
+                    <h2 class="section-title">Tournament Matchup Explorer</h2>
+                    <div class="section-note">Every feasible tournament-path matchup, by round and game.</div>
                 </div>
             </div>
             <div class="toolbar">
                 <input id="teamSearch" class="search" type="search" placeholder="Search team or matchup">
                 <select id="sortMode" class="select">
+                    <option value="path">Sort by most likely matchup path</option>
                     <option value="strength">Sort by strongest favorite</option>
                     <option value="alphabetical">Sort alphabetically</option>
                 </select>
@@ -539,9 +540,18 @@
             const sorted = [...rows];
             if (sortMode === "alphabetical") {
                 sorted.sort((a, b) => {
-                    const left = `${a.team_a} ${a.team_b}`.toLowerCase();
-                    const right = `${b.team_a} ${b.team_b}`.toLowerCase();
+                    const left = `${a.round_name} ${a.team_a} ${a.team_b}`.toLowerCase();
+                    const right = `${b.round_name} ${b.team_a} ${b.team_b}`.toLowerCase();
                     return left.localeCompare(right);
+                });
+                return sorted;
+            }
+            if (sortMode === "path") {
+                sorted.sort((a, b) => {
+                    if (b.matchup_probability !== a.matchup_probability) {
+                        return b.matchup_probability - a.matchup_probability;
+                    }
+                    return a.round_index - b.round_index;
                 });
                 return sorted;
             }
@@ -559,7 +569,7 @@
             const sortMode = document.getElementById("sortMode").value;
             const filtered = sortMatchups(rows, sortMode).filter((row) => {
                 if (!query) return true;
-                return `${row.team_a} ${row.team_b}`.toLowerCase().includes(query);
+                return `${row.round_name} ${row.game_id} ${row.team_a} ${row.team_b}`.toLowerCase().includes(query);
             });
 
             const container = document.getElementById("matchupContainer");
@@ -574,6 +584,8 @@
                 <thead>
                     <tr>
                         <th>Matchup</th>
+                        <th>Round</th>
+                        <th>Path</th>
                         <th>Favorite</th>
                         <th>Win Prob.</th>
                         <th>Other Side</th>
@@ -588,6 +600,8 @@
                         return `
                             <tr>
                                 <td class="team-pair">${safeText(row.team_a)} <span class="subtle">vs</span> ${safeText(row.team_b)}</td>
+                                <td>${safeText(row.round_name)} <span class="subtle">(${safeText(row.game_id)})</span></td>
+                                <td>${percentage(row.matchup_probability)}</td>
                                 <td>${safeText(favorite)}</td>
                                 <td>${percentage(favoriteProb)}</td>
                                 <td class="subtle">${safeText(underdog)}</td>
