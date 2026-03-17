@@ -1,38 +1,38 @@
 ﻿{
   "strategy": "small-pool",
-  "expected_score": 1206.89,
-  "win_rate": 0.0655,
-  "top_decile_rate": 0.155,
+  "expected_score": 1103.57,
+  "win_rate": 0.071,
+  "top_decile_rate": 0.189,
   "title_odds_top_10": [
     {
-      "Duke": 0.314
+      "Duke": 0.3095
     },
     {
-      "Michigan": 0.198
+      "Michigan": 0.2405
     },
     {
-      "Arizona": 0.156
+      "Arizona": 0.127
     },
     {
-      "Florida": 0.095
+      "Florida": 0.085
     },
     {
-      "Houston": 0.069
+      "Houston": 0.063
     },
     {
-      "Iowa State": 0.053
+      "Iowa State": 0.054
     },
     {
-      "UConn": 0.0395
+      "Illinois": 0.0305
     },
     {
-      "Purdue": 0.025
+      "UConn": 0.03
     },
     {
-      "Illinois": 0.017
+      "Purdue": 0.016
     },
     {
-      "Michigan State": 0.0165
+      "Gonzaga": 0.0155
     }
   ],
   "recommended_bracket": {
@@ -42,22 +42,22 @@
     "E4": "Kansas",
     "E5": "Louisville",
     "E6": "Michigan State",
-    "E7": "UCLA",
+    "E7": "UCF",
     "E8": "UConn",
     "E9": "Duke",
-    "E10": "Kansas",
+    "E10": "St. John's",
     "E11": "Michigan State",
     "E12": "UConn",
     "E13": "Duke",
     "E14": "UConn",
     "E15": "Duke",
     "W1": "Arizona",
-    "W2": "Villanova",
+    "W2": "Utah State",
     "W3": "Wisconsin",
     "W4": "Arkansas",
     "W5": "BYU",
     "W6": "Gonzaga",
-    "W7": "Miami (FL)",
+    "W7": "Missouri",
     "W8": "Purdue",
     "W9": "Arizona",
     "W10": "Arkansas",
@@ -82,7 +82,7 @@
     "S14": "Houston",
     "S15": "Florida",
     "M1": "Michigan",
-    "M2": "Georgia",
+    "M2": "Saint Louis",
     "M3": "Texas Tech",
     "M4": "Alabama",
     "M5": "Tennessee",

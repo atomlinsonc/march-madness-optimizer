@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import random
 from dataclasses import dataclass
+from math import log
 from pathlib import Path
 from typing import Iterable
 
@@ -44,9 +45,16 @@ class Tournament:
 
     @classmethod
     def from_file(cls, path: str | Path) -> "Tournament":
-        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        file_path = Path(path)
+        payload = json.loads(file_path.read_text(encoding="utf-8"))
+        scraped_metrics: dict[str, dict[str, float]] = {}
+        metrics_path_value = payload.get("metrics_path")
+        if isinstance(metrics_path_value, str):
+            metrics_path = file_path.parent / metrics_path_value
+            if metrics_path.exists():
+                scraped_metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
         if "regions" in payload:
-            teams = cls._build_teams_from_regions(payload["regions"])
+            teams = cls._build_teams_from_regions(payload["regions"], scraped_metrics)
             games = cls._build_standard_games(payload["regions"])
         else:
             teams = {
@@ -88,16 +96,23 @@ class Tournament:
         return cls(teams=teams, games=games, scoring=scoring or None)
 
     @staticmethod
-    def _build_teams_from_regions(regions: dict[str, list[dict[str, object]]]) -> dict[str, TeamProfile]:
+    def _build_teams_from_regions(
+        regions: dict[str, list[dict[str, object]]],
+        scraped_metrics: dict[str, dict[str, float]],
+    ) -> dict[str, TeamProfile]:
         teams: dict[str, TeamProfile] = {}
         for region_name, entries in regions.items():
             for entry in entries:
-                team = Tournament._synthesize_team_profile(region_name, entry)
+                team = Tournament._synthesize_team_profile(region_name, entry, scraped_metrics)
                 teams[team.name] = team
         return teams
 
     @staticmethod
-    def _synthesize_team_profile(region_name: str, entry: dict[str, object]) -> TeamProfile:
+    def _synthesize_team_profile(
+        region_name: str,
+        entry: dict[str, object],
+        scraped_metrics: dict[str, dict[str, float]],
+    ) -> TeamProfile:
         name = str(entry["name"])
         seed = int(entry["seed"])
         overall_seed = float(entry.get("overall_seed", 68))
@@ -109,48 +124,76 @@ class Tournament:
         profile_seed = sum((index + 1) * ord(character) for index, character in enumerate(name))
         style_a = ((profile_seed % 19) - 9) / 100.0
         style_b = (((profile_seed // 19) % 19) - 9) / 100.0
-        adj_em = max(4.0, 6.0 + (quality * 0.47) + ((win_pct - 0.5) * 10.0))
-        adj_o = 104.5 + (quality * 0.24) + ((profile_seed % 11) * 0.33)
+        metrics = scraped_metrics.get("teams", {}).get(name, {})
+        net_rank = float(metrics.get("net_rank", 70 - quality))
+        ap_rank = metrics.get("ap_rank")
+        bpi_rank = metrics.get("bpi_rank")
+        odds_values = metrics.get("title_odds_american")
+        composite_ranks: list[tuple[float, float]] = [(net_rank, 0.45), (overall_seed, 0.20)]
+        if isinstance(ap_rank, (int, float)):
+            composite_ranks.append((float(ap_rank), 0.20))
+        if isinstance(bpi_rank, (int, float)):
+            composite_ranks.append((float(bpi_rank), 0.15))
+        weight_total = sum(weight for _, weight in composite_ranks)
+        composite_rank = sum(rank * weight for rank, weight in composite_ranks) / max(weight_total, 1e-6)
+        strength = max(2.0, 40.0 - (composite_rank * 0.5))
+        market_implied = Tournament._average_implied_probability(odds_values)
+        market_boost = log((market_implied + 1e-6) / (1.0 - market_implied + 1e-6)) if market_implied else 0.0
+
+        adj_em = max(1.0, 1.5 + (strength * 0.42) + ((win_pct - 0.5) * 6.0) + (market_boost * 1.6))
+        adj_o = 100.0 + (strength * 0.20) + ((profile_seed % 11) * 0.24) + (market_boost * 0.55)
         adj_d = adj_o - adj_em
-        public_base = {
-            1: 0.78, 2: 0.67, 3: 0.58, 4: 0.50, 5: 0.40, 6: 0.33, 7: 0.27, 8: 0.22,
-            9: 0.19, 10: 0.16, 11: 0.15, 12: 0.13, 13: 0.09, 14: 0.06, 15: 0.03, 16: 0.015,
-        }
-        public_pick_rate = min(
-            max(public_base.get(seed, 0.1) + ((17.0 - overall_seed) / 200.0), 0.01),
-            0.92,
-        )
+        public_base = max(0.01, min(0.92, (17.0 - seed) / 20.0))
+        public_pick_rate = min(max(market_implied * 3.2 if market_implied else public_base, 0.01), 0.92)
         return TeamProfile(
             name=name,
             region=region_name,
             seed=seed,
             adj_o=round(adj_o, 2),
             adj_d=round(adj_d, 2),
-            tempo=round(66.0 + ((profile_seed % 8) * 0.9), 2),
-            last10_adj_em=round(adj_em * 0.94, 2),
+            tempo=round(65.0 + ((profile_seed % 8) * 0.85), 2),
+            last10_adj_em=round(adj_em * 0.96, 2),
             non_garbage_adj_em=round(adj_em * 1.03, 2),
-            elo=round(1535.0 + (quality * 5.8) + ((win_pct - 0.5) * 110.0), 2),
-            network=round((quality * 0.58) + ((win_pct - 0.5) * 14.0), 2),
-            resume=round((quality * 0.50) + ((win_pct - 0.5) * 18.0), 2),
+            elo=round(1495.0 + (strength * 4.4) + ((win_pct - 0.5) * 85.0) + (market_boost * 12.0), 2),
+            network=round((strength * 0.32) + ((win_pct - 0.5) * 10.0), 2),
+            resume=round((strength * 0.28) + ((win_pct - 0.5) * 14.0), 2),
             three_point_rate=round(0.31 + style_a + (0.008 * (seed <= 4)), 3),
-            three_point_defense=round(0.34 - (quality / 500.0) + style_b, 3),
-            turnover_rate=round(0.18 - (quality / 800.0) + (style_b / 2.5), 3),
-            turnover_creation=round(0.15 + (quality / 700.0) + (style_a / 2.2), 3),
-            offensive_rebounding=round(0.27 + (quality / 420.0) - (style_a / 2.8), 3),
-            defensive_rebounding=round(0.68 + (quality / 380.0) - (style_b / 3.0), 3),
-            free_throw_rate=round(0.28 + (quality / 600.0) + (style_a / 3.0), 3),
-            foul_rate=round(0.31 - (quality / 700.0) + (style_b / 3.0), 3),
-            size=round(6.9 + (quality / 22.0) + (style_b * 3.5), 2),
+            three_point_defense=round(0.34 - (strength / 550.0) + style_b, 3),
+            turnover_rate=round(0.18 - (strength / 850.0) + (style_b / 2.5), 3),
+            turnover_creation=round(0.15 + (strength / 720.0) + (style_a / 2.2), 3),
+            offensive_rebounding=round(0.27 + (strength / 430.0) - (style_a / 2.8), 3),
+            defensive_rebounding=round(0.68 + (strength / 390.0) - (style_b / 3.0), 3),
+            free_throw_rate=round(0.28 + (strength / 620.0) + (style_a / 3.0), 3),
+            foul_rate=round(0.31 - (strength / 710.0) + (style_b / 3.0), 3),
+            size=round(6.9 + (strength / 22.0) + (style_b * 3.5), 2),
             experience=round(5.4 + ((profile_seed % 7) * 0.35), 2),
             continuity=round(5.0 + (((profile_seed // 7) % 7) * 0.38), 2),
             bench_depth=round(5.6 + (((profile_seed // 13) % 7) * 0.33), 2),
-            coach_score=round(5.8 + ((quality / 14.0) + ((profile_seed % 5) * 0.22)), 2),
+            coach_score=round(5.8 + ((strength / 14.0) + ((profile_seed % 5) * 0.22)), 2),
             travel_index=round(((profile_seed % 9) * 0.03), 2),
             rest_edge=0.0,
             availability=float(entry.get("availability", 1.0)),
-            market_power=round(adj_em * 0.9, 2),
+            market_power=round((adj_em * 0.65) + (market_implied * 50.0), 2),
             public_pick_rate=round(public_pick_rate, 3),
         )
+
+    @staticmethod
+    def _average_implied_probability(american_odds: object) -> float:
+        if isinstance(american_odds, (int, float)):
+            american_values = [float(american_odds)]
+        elif isinstance(american_odds, list):
+            american_values = [float(item) for item in american_odds if isinstance(item, (int, float))]
+        else:
+            american_values = []
+        if not american_values:
+            return 0.0
+        implied_values: list[float] = []
+        for value in american_values:
+            if value > 0:
+                implied_values.append(100.0 / (value + 100.0))
+            elif value < 0:
+                implied_values.append((-value) / ((-value) + 100.0))
+        return sum(implied_values) / max(len(implied_values), 1)
 
     @staticmethod
     def _build_standard_games(regions: dict[str, list[dict[str, object]]]) -> list[GameNode]:
