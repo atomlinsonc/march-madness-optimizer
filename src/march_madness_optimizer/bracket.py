@@ -38,6 +38,15 @@ class GameNode:
 
 
 class Tournament:
+    TEAM_ALIASES = {
+        "UConn": "Connecticut",
+        "UCONN": "Connecticut",
+        "St. John's": "Saint John's",
+        "Saint Mary's": "Saint Mary's College",
+        "NC State": "North Carolina State",
+        "LIU": "Long Island",
+    }
+
     def __init__(self, teams: dict[str, TeamProfile], games: list[GameNode], scoring: dict[int, int] | None = None) -> None:
         self.teams = teams
         self.games = games
@@ -124,27 +133,75 @@ class Tournament:
         profile_seed = sum((index + 1) * ord(character) for index, character in enumerate(name))
         style_a = ((profile_seed % 19) - 9) / 100.0
         style_b = (((profile_seed // 19) % 19) - 9) / 100.0
-        metrics = scraped_metrics.get("teams", {}).get(name, {})
-        net_rank = float(metrics.get("net_rank", 70 - quality))
-        ap_rank = metrics.get("ap_rank")
-        bpi_rank = metrics.get("bpi_rank")
-        odds_values = metrics.get("title_odds_american")
-        composite_ranks: list[tuple[float, float]] = [(net_rank, 0.45), (overall_seed, 0.20)]
-        if isinstance(ap_rank, (int, float)):
-            composite_ranks.append((float(ap_rank), 0.20))
-        if isinstance(bpi_rank, (int, float)):
-            composite_ranks.append((float(bpi_rank), 0.15))
-        weight_total = sum(weight for _, weight in composite_ranks)
-        composite_rank = sum(rank * weight for rank, weight in composite_ranks) / max(weight_total, 1e-6)
-        strength = max(2.0, 40.0 - (composite_rank * 0.5))
+        metrics = Tournament._lookup_team_metrics(name, scraped_metrics.get("teams", {}))
+        net_rank = Tournament._bounded_rank(metrics.get("net_rank"), 70 - quality)
+        ap_rank = Tournament._bounded_rank(metrics.get("ap_rank"), 35.0)
+        coaches_rank = Tournament._bounded_rank(metrics.get("coaches_rank"), 35.0)
+        bpi_rank = Tournament._bounded_rank(metrics.get("bpi_rank"), 45.0)
+        elo_rank = Tournament._bounded_rank(metrics.get("elo_rank"), net_rank + 6.0)
+        kpi_rank = Tournament._bounded_rank(metrics.get("kpi_rank"), net_rank + 10.0)
+        sor_rank = Tournament._bounded_rank(metrics.get("sor_rank"), net_rank + 9.0)
+        wab_rank = Tournament._bounded_rank(metrics.get("wab_rank"), net_rank + 9.0)
+        pom_rank = Tournament._bounded_rank(metrics.get("pom_rank"), bpi_rank + 2.0)
+        t_rank = Tournament._bounded_rank(metrics.get("t_rank"), bpi_rank + 4.0)
+        avg_pred_rank = Tournament._bounded_rank(metrics.get("avg_pred_rank"), (bpi_rank + pom_rank + t_rank) / 3.0)
+        rpi_rank = Tournament._bounded_rank(metrics.get("rpi_rank"), net_rank + 14.0)
+        pred_rpi_rank = Tournament._bounded_rank(metrics.get("pred_rpi_rank"), avg_pred_rank + 10.0)
+        odds_values = Tournament._collect_market_values(metrics, "title_odds_american")
+        final_four_odds = Tournament._collect_market_values(metrics, "final_four_odds_american")
+        public_ticket_pct = float(metrics.get("public_ticket_pct", 0.0) or 0.0)
+        public_handle_pct = float(metrics.get("public_handle_pct", 0.0) or 0.0)
+        predictive_rank = Tournament._weighted_rank(
+            [
+                (bpi_rank, 0.18),
+                (pom_rank, 0.22),
+                (t_rank, 0.22),
+                (avg_pred_rank, 0.16),
+                (elo_rank, 0.12),
+                (pred_rpi_rank, 0.10),
+            ],
+            fallback=overall_seed,
+        )
+        resume_rank = Tournament._weighted_rank(
+            [
+                (net_rank, 0.20),
+                (kpi_rank, 0.17),
+                (sor_rank, 0.17),
+                (wab_rank, 0.17),
+                (ap_rank, 0.09),
+                (coaches_rank, 0.07),
+                (rpi_rank, 0.08),
+                (overall_seed, 0.05),
+            ],
+            fallback=overall_seed,
+        )
+        composite_rank = (predictive_rank * 0.58) + (resume_rank * 0.42)
+        strength = max(4.0, 36.0 - (composite_rank * 0.21))
         market_implied = Tournament._average_implied_probability(odds_values)
-        market_boost = log((market_implied + 1e-6) / (1.0 - market_implied + 1e-6)) if market_implied else 0.0
+        final_four_implied = Tournament._average_implied_probability(final_four_odds)
+        blended_market = (
+            (market_implied * 0.7) + (final_four_implied * 0.3)
+            if market_implied and final_four_implied
+            else max(market_implied, final_four_implied)
+        )
+        market_boost = log((blended_market + 1e-6) / (1.0 - blended_market + 1e-6)) if blended_market else 0.0
+        public_market_signal = max(public_ticket_pct, public_handle_pct)
 
-        adj_em = max(1.0, 1.5 + (strength * 0.42) + ((win_pct - 0.5) * 6.0) + (market_boost * 1.6))
-        adj_o = 100.0 + (strength * 0.20) + ((profile_seed % 11) * 0.24) + (market_boost * 0.55)
+        adj_em = max(
+            1.0,
+            11.0
+            + ((68.0 - predictive_rank) * 0.28)
+            + ((68.0 - resume_rank) * 0.17)
+            + ((win_pct - 0.5) * 8.0)
+            + (market_boost * 1.8),
+        )
+        adj_o = 99.5 + (strength * 0.24) + ((profile_seed % 11) * 0.22) + (market_boost * 0.60)
         adj_d = adj_o - adj_em
         public_base = max(0.01, min(0.92, (17.0 - seed) / 20.0))
-        public_pick_rate = min(max(market_implied * 3.2 if market_implied else public_base, 0.01), 0.92)
+        implied_public = blended_market * 3.0 if blended_market else public_base
+        if public_market_signal > 0:
+            implied_public = (implied_public * 0.75) + (public_market_signal * 0.25)
+        public_pick_rate = min(max(implied_public, 0.01), 0.92)
         return TeamProfile(
             name=name,
             region=region_name,
@@ -154,9 +211,9 @@ class Tournament:
             tempo=round(65.0 + ((profile_seed % 8) * 0.85), 2),
             last10_adj_em=round(adj_em * 0.96, 2),
             non_garbage_adj_em=round(adj_em * 1.03, 2),
-            elo=round(1495.0 + (strength * 4.4) + ((win_pct - 0.5) * 85.0) + (market_boost * 12.0), 2),
-            network=round((strength * 0.32) + ((win_pct - 0.5) * 10.0), 2),
-            resume=round((strength * 0.28) + ((win_pct - 0.5) * 14.0), 2),
+            elo=round(1505.0 + ((68.0 - elo_rank) * 3.3) + ((win_pct - 0.5) * 90.0) + (market_boost * 12.0), 2),
+            network=round(((68.0 - Tournament._weighted_rank([(sor_rank, 0.4), (wab_rank, 0.4), (rpi_rank, 0.2)], fallback=resume_rank)) * 0.22) + ((win_pct - 0.5) * 9.0), 2),
+            resume=round(((68.0 - resume_rank) * 0.24) + ((win_pct - 0.5) * 12.0) + ((35.0 - ap_rank) * 0.04), 2),
             three_point_rate=round(0.31 + style_a + (0.008 * (seed <= 4)), 3),
             three_point_defense=round(0.34 - (strength / 550.0) + style_b, 3),
             turnover_rate=round(0.18 - (strength / 850.0) + (style_b / 2.5), 3),
@@ -173,9 +230,84 @@ class Tournament:
             travel_index=round(((profile_seed % 9) * 0.03), 2),
             rest_edge=0.0,
             availability=float(entry.get("availability", 1.0)),
-            market_power=round((adj_em * 0.65) + (market_implied * 50.0), 2),
+            market_power=round((adj_em * 0.62) + (blended_market * 58.0) + (public_handle_pct * 8.0), 2),
             public_pick_rate=round(public_pick_rate, 3),
         )
+
+    @classmethod
+    def _lookup_team_metrics(cls, name: str, team_metrics: dict[str, dict[str, object]]) -> dict[str, object]:
+        direct_names = [name, cls.TEAM_ALIASES.get(name, "")]
+        for candidate in direct_names:
+            if candidate and candidate in team_metrics:
+                return dict(team_metrics[candidate])
+
+        if " / " in name:
+            parts = [part.strip() for part in name.split("/") if part.strip()]
+            component_rows = [cls._lookup_team_metrics(part, team_metrics) for part in parts]
+            return cls._blend_metric_rows([row for row in component_rows if row])
+        return {}
+
+    @staticmethod
+    def _blend_metric_rows(rows: list[dict[str, object]]) -> dict[str, object]:
+        if not rows:
+            return {}
+        merged: dict[str, object] = {}
+        numeric_keys = {
+            "net_rank",
+            "elo_rank",
+            "kpi_rank",
+            "sor_rank",
+            "wab_rank",
+            "average_rank",
+            "bpi_rank",
+            "pom_rank",
+            "t_rank",
+            "avg_pred_rank",
+            "rpi_rank",
+            "pred_rpi_rank",
+            "ap_rank",
+            "coaches_rank",
+            "public_ticket_pct",
+            "public_handle_pct",
+        }
+        for key in numeric_keys:
+            values = [float(row[key]) for row in rows if isinstance(row.get(key), (int, float))]
+            if values:
+                merged[key] = sum(values) / len(values)
+        for market_key in ("title_odds_american", "final_four_odds_american"):
+            combined: list[float] = []
+            for row in rows:
+                value = row.get(market_key)
+                if isinstance(value, list):
+                    combined.extend(float(item) for item in value if isinstance(item, (int, float)))
+                elif isinstance(value, (int, float)):
+                    combined.append(float(value))
+            if combined:
+                merged[market_key] = combined
+        return merged
+
+    @staticmethod
+    def _collect_market_values(metrics: dict[str, object], key: str) -> list[float]:
+        value = metrics.get(key)
+        if isinstance(value, list):
+            return [float(item) for item in value if isinstance(item, (int, float))]
+        if isinstance(value, (int, float)):
+            return [float(value)]
+        return []
+
+    @staticmethod
+    def _bounded_rank(value: object, fallback: float, upper: float = 320.0) -> float:
+        if isinstance(value, (int, float)):
+            return max(1.0, min(float(value), upper))
+        return max(1.0, min(float(fallback), upper))
+
+    @staticmethod
+    def _weighted_rank(values: list[tuple[float, float]], fallback: float) -> float:
+        usable = [(rank, weight) for rank, weight in values if isinstance(rank, (int, float))]
+        if not usable:
+            return fallback
+        total_weight = sum(weight for _, weight in usable)
+        return sum(rank * weight for rank, weight in usable) / max(total_weight, 1e-6)
 
     @staticmethod
     def _average_implied_probability(american_odds: object) -> float:

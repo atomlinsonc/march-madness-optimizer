@@ -1,168 +1,168 @@
 ﻿{
   "strategy": "small-pool",
-  "expected_score": 1102.03,
-  "win_rate": 0.0692,
-  "top_decile_rate": 0.1825,
+  "expected_score": 1274.74,
+  "win_rate": 0.091,
+  "top_decile_rate": 0.2265,
   "title_odds_top_10": [
     {
-      "Duke": 0.3151
+      "Duke": 0.3695
     },
     {
-      "Michigan": 0.2427
+      "Michigan": 0.2662
     },
     {
-      "Arizona": 0.1326
+      "Arizona": 0.1593
     },
     {
-      "Florida": 0.0932
+      "Florida": 0.0969
     },
     {
-      "Houston": 0.0571
+      "Houston": 0.0359
     },
     {
-      "Iowa State": 0.0492
+      "Iowa State": 0.031
     },
     {
-      "Illinois": 0.0342
+      "Illinois": 0.0148
     },
     {
-      "UConn": 0.0247
+      "UConn": 0.0145
     },
     {
-      "Purdue": 0.0123
+      "Gonzaga": 0.0036
     },
     {
-      "Gonzaga": 0.0107
+      "Michigan State": 0.0035
     }
   ],
   "advancement_odds_top_16": {
     "Duke": {
-      "Round of 64": 0.98,
-      "Round of 32": 0.9394,
-      "Sweet 16": 0.8355,
-      "Elite 8": 0.6793,
-      "Final Four": 0.4979,
-      "Championship": 0.3151
+      "Round of 64": 0.99,
+      "Round of 32": 0.9764,
+      "Sweet 16": 0.92,
+      "Elite 8": 0.7872,
+      "Final Four": 0.5688,
+      "Championship": 0.3695
     },
     "Michigan": {
-      "Round of 64": 0.9719,
-      "Round of 32": 0.9091,
-      "Sweet 16": 0.7936,
-      "Elite 8": 0.6095,
-      "Final Four": 0.4126,
-      "Championship": 0.2427
+      "Round of 64": 0.99,
+      "Round of 32": 0.9703,
+      "Sweet 16": 0.8939,
+      "Elite 8": 0.7093,
+      "Final Four": 0.4908,
+      "Championship": 0.2662
     },
     "Arizona": {
-      "Round of 64": 0.9635,
-      "Round of 32": 0.8806,
-      "Sweet 16": 0.7357,
-      "Elite 8": 0.5609,
-      "Final Four": 0.2669,
-      "Championship": 0.1326
+      "Round of 64": 0.99,
+      "Round of 32": 0.964,
+      "Sweet 16": 0.8855,
+      "Elite 8": 0.7385,
+      "Final Four": 0.3198,
+      "Championship": 0.1593
     },
     "Florida": {
-      "Round of 64": 0.9707,
-      "Round of 32": 0.8908,
-      "Sweet 16": 0.7131,
-      "Elite 8": 0.4108,
-      "Final Four": 0.1986,
-      "Championship": 0.0932
+      "Round of 64": 0.99,
+      "Round of 32": 0.9633,
+      "Sweet 16": 0.8559,
+      "Elite 8": 0.5241,
+      "Final Four": 0.2359,
+      "Championship": 0.0969
     },
     "Houston": {
-      "Round of 64": 0.9485,
-      "Round of 32": 0.8183,
-      "Sweet 16": 0.5067,
-      "Elite 8": 0.2859,
-      "Final Four": 0.1296,
-      "Championship": 0.0571
+      "Round of 64": 0.99,
+      "Round of 32": 0.9332,
+      "Sweet 16": 0.5769,
+      "Elite 8": 0.2808,
+      "Final Four": 0.1055,
+      "Championship": 0.0359
     },
     "Iowa State": {
-      "Round of 64": 0.9103,
-      "Round of 32": 0.782,
-      "Sweet 16": 0.6149,
-      "Elite 8": 0.2495,
-      "Final Four": 0.1218,
-      "Championship": 0.0492
+      "Round of 64": 0.99,
+      "Round of 32": 0.8955,
+      "Sweet 16": 0.7915,
+      "Elite 8": 0.2432,
+      "Final Four": 0.1047,
+      "Championship": 0.031
     },
     "Illinois": {
-      "Round of 64": 0.9192,
-      "Round of 32": 0.7566,
-      "Sweet 16": 0.3957,
-      "Elite 8": 0.2072,
-      "Final Four": 0.0854,
-      "Championship": 0.0342
+      "Round of 64": 0.9766,
+      "Round of 32": 0.8745,
+      "Sweet 16": 0.4007,
+      "Elite 8": 0.1684,
+      "Final Four": 0.0528,
+      "Championship": 0.0148
     },
     "UConn": {
-      "Round of 64": 0.931,
-      "Round of 32": 0.7517,
-      "Sweet 16": 0.4895,
-      "Elite 8": 0.1519,
-      "Final Four": 0.0715,
-      "Championship": 0.0247
-    },
-    "Purdue": {
-      "Round of 64": 0.9131,
-      "Round of 32": 0.704,
-      "Sweet 16": 0.4246,
-      "Elite 8": 0.161,
-      "Final Four": 0.0446,
-      "Championship": 0.0123
+      "Round of 64": 0.9771,
+      "Round of 32": 0.8951,
+      "Sweet 16": 0.5971,
+      "Elite 8": 0.1316,
+      "Final Four": 0.0505,
+      "Championship": 0.0145
     },
     "Gonzaga": {
-      "Round of 64": 0.8729,
-      "Round of 32": 0.6845,
-      "Sweet 16": 0.3928,
-      "Elite 8": 0.1462,
-      "Final Four": 0.0396,
-      "Championship": 0.0107
+      "Round of 64": 0.9638,
+      "Round of 32": 0.8505,
+      "Sweet 16": 0.4867,
+      "Elite 8": 0.1172,
+      "Final Four": 0.0197,
+      "Championship": 0.0036
     },
     "Michigan State": {
-      "Round of 64": 0.821,
-      "Round of 32": 0.6253,
-      "Sweet 16": 0.3265,
-      "Elite 8": 0.0875,
-      "Final Four": 0.0363,
-      "Championship": 0.0106
+      "Round of 64": 0.9183,
+      "Round of 32": 0.7049,
+      "Sweet 16": 0.3182,
+      "Elite 8": 0.0534,
+      "Final Four": 0.0162,
+      "Championship": 0.0035
+    },
+    "Purdue": {
+      "Round of 64": 0.9525,
+      "Round of 32": 0.7948,
+      "Sweet 16": 0.4386,
+      "Elite 8": 0.1038,
+      "Final Four": 0.0171,
+      "Championship": 0.0031
     },
     "Alabama": {
-      "Round of 64": 0.9403,
-      "Round of 32": 0.6084,
-      "Sweet 16": 0.1247,
-      "Elite 8": 0.0503,
-      "Final Four": 0.0139,
-      "Championship": 0.003
+      "Round of 64": 0.9747,
+      "Round of 32": 0.7217,
+      "Sweet 16": 0.0846,
+      "Elite 8": 0.028,
+      "Final Four": 0.0054,
+      "Championship": 0.0007
+    },
+    "Kansas": {
+      "Round of 64": 0.8497,
+      "Round of 32": 0.5318,
+      "Sweet 16": 0.047,
+      "Elite 8": 0.015,
+      "Final Four": 0.003,
+      "Championship": 0.0004
     },
     "Arkansas": {
-      "Round of 64": 0.8043,
-      "Round of 32": 0.5388,
-      "Sweet 16": 0.1457,
-      "Elite 8": 0.0665,
-      "Final Four": 0.014,
-      "Championship": 0.0028
+      "Round of 64": 0.8486,
+      "Round of 32": 0.5321,
+      "Sweet 16": 0.0652,
+      "Elite 8": 0.0228,
+      "Final Four": 0.0022,
+      "Championship": 0.0002
     },
     "Nebraska": {
-      "Round of 64": 0.8381,
-      "Round of 32": 0.5263,
-      "Sweet 16": 0.1579,
-      "Elite 8": 0.0487,
-      "Final Four": 0.0118,
-      "Championship": 0.0027
+      "Round of 64": 0.902,
+      "Round of 32": 0.5444,
+      "Sweet 16": 0.0827,
+      "Elite 8": 0.0157,
+      "Final Four": 0.0019,
+      "Championship": 0.0002
     },
     "St. John's": {
-      "Round of 64": 0.9053,
-      "Round of 32": 0.5354,
-      "Sweet 16": 0.0879,
-      "Elite 8": 0.0348,
-      "Final Four": 0.0106,
-      "Championship": 0.0021
-    },
-    "Virginia": {
-      "Round of 64": 0.8365,
-      "Round of 32": 0.5188,
-      "Sweet 16": 0.1811,
-      "Elite 8": 0.0396,
-      "Final Four": 0.0099,
-      "Championship": 0.002
+      "Round of 64": 0.9404,
+      "Round of 32": 0.4279,
+      "Sweet 16": 0.0279,
+      "Elite 8": 0.0067,
+      "Final Four": 0.001,
+      "Championship": 0.0001
     }
   },
   "recommended_bracket": {
@@ -172,10 +172,10 @@
     "E4": "Kansas",
     "E5": "Louisville",
     "E6": "Michigan State",
-    "E7": "UCF",
+    "E7": "UCLA",
     "E8": "UConn",
     "E9": "Duke",
-    "E10": "St. John's",
+    "E10": "Kansas",
     "E11": "Michigan State",
     "E12": "UConn",
     "E13": "Duke",
@@ -194,7 +194,7 @@
     "W11": "Gonzaga",
     "W12": "Purdue",
     "W13": "Arizona",
-    "W14": "Purdue",
+    "W14": "Gonzaga",
     "W15": "Arizona",
     "S1": "Florida",
     "S2": "Clemson",
@@ -212,7 +212,7 @@
     "S14": "Houston",
     "S15": "Florida",
     "M1": "Michigan",
-    "M2": "Saint Louis",
+    "M2": "Georgia",
     "M3": "Texas Tech",
     "M4": "Alabama",
     "M5": "Tennessee",
@@ -221,7 +221,7 @@
     "M8": "Iowa State",
     "M9": "Michigan",
     "M10": "Alabama",
-    "M11": "Virginia",
+    "M11": "Tennessee",
     "M12": "Iowa State",
     "M13": "Michigan",
     "M14": "Iowa State",
