@@ -1,55 +1,103 @@
 ﻿{
   "strategy": "small-pool",
-  "expected_score": 196.6,
-  "win_rate": 0.04,
-  "top_decile_rate": 0.143,
+  "expected_score": 1206.89,
+  "win_rate": 0.0655,
+  "top_decile_rate": 0.155,
   "title_odds_top_10": [
     {
-      "Duke": 0.3315
+      "Duke": 0.314
     },
     {
-      "Florida": 0.2445
+      "Michigan": 0.198
     },
     {
-      "Arizona": 0.219
+      "Arizona": 0.156
     },
     {
-      "Michigan": 0.1815
+      "Florida": 0.095
     },
     {
-      "Maryland": 0.0055
+      "Houston": 0.069
     },
     {
-      "Clemson": 0.0045
+      "Iowa State": 0.053
     },
     {
-      "Texas A&M": 0.004
+      "UConn": 0.0395
     },
     {
-      "Saint Mary's": 0.0025
+      "Purdue": 0.025
     },
     {
-      "Oregon": 0.002
+      "Illinois": 0.017
     },
     {
-      "Memphis": 0.002
+      "Michigan State": 0.0165
     }
   ],
   "recommended_bracket": {
     "E1": "Duke",
-    "E2": "Oregon",
+    "E2": "Ohio State",
+    "E3": "St. John's",
+    "E4": "Kansas",
+    "E5": "Louisville",
+    "E6": "Michigan State",
+    "E7": "UCLA",
+    "E8": "UConn",
+    "E9": "Duke",
+    "E10": "Kansas",
+    "E11": "Michigan State",
+    "E12": "UConn",
+    "E13": "Duke",
+    "E14": "UConn",
+    "E15": "Duke",
     "W1": "Arizona",
-    "W2": "Saint Mary's",
+    "W2": "Villanova",
+    "W3": "Wisconsin",
+    "W4": "Arkansas",
+    "W5": "BYU",
+    "W6": "Gonzaga",
+    "W7": "Miami (FL)",
+    "W8": "Purdue",
+    "W9": "Arizona",
+    "W10": "Arkansas",
+    "W11": "Gonzaga",
+    "W12": "Purdue",
+    "W13": "Arizona",
+    "W14": "Purdue",
+    "W15": "Arizona",
     "S1": "Florida",
-    "S2": "Memphis",
+    "S2": "Clemson",
+    "S3": "Vanderbilt",
+    "S4": "Nebraska",
+    "S5": "North Carolina",
+    "S6": "Illinois",
+    "S7": "Saint Mary's",
+    "S8": "Houston",
+    "S9": "Florida",
+    "S10": "Nebraska",
+    "S11": "Illinois",
+    "S12": "Houston",
+    "S13": "Florida",
+    "S14": "Houston",
+    "S15": "Florida",
     "M1": "Michigan",
-    "M2": "Maryland",
-    "E3": "Duke",
-    "W3": "Arizona",
-    "S3": "Florida",
-    "M3": "Michigan",
+    "M2": "Georgia",
+    "M3": "Texas Tech",
+    "M4": "Alabama",
+    "M5": "Tennessee",
+    "M6": "Virginia",
+    "M7": "Kentucky",
+    "M8": "Iowa State",
+    "M9": "Michigan",
+    "M10": "Alabama",
+    "M11": "Virginia",
+    "M12": "Iowa State",
+    "M13": "Michigan",
+    "M14": "Iowa State",
+    "M15": "Michigan",
     "F1": "Duke",
-    "F2": "Florida",
+    "F2": "Michigan",
     "C1": "Duke"
   }
 }
