@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>March Madness Optimizer</title>
+    <link rel="icon" href="data:,">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+        :root {
+            --bg: #f4efe4;
+            --panel: rgba(255, 252, 245, 0.88);
+            --panel-strong: #fffaf0;
+            --ink: #1f1d1b;
+            --muted: #6b6258;
+            --line: rgba(53, 41, 26, 0.12);
+            --accent: #0f766e;
+            --accent-soft: #d7f3ee;
+            --accent-strong: #115e59;
+            --gold: #c98a1a;
+            --shadow: 0 20px 60px rgba(45, 34, 20, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(17, 94, 89, 0.18), transparent 30%),
+                radial-gradient(circle at top right, rgba(201, 138, 26, 0.14), transparent 24%),
+                linear-gradient(180deg, #f8f5ee 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+
+        .shell {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 32px 20px 56px;
+        }
+
+        .hero {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+            align-items: end;
+            margin-bottom: 24px;
+        }
+
+        .hero-copy {
+            padding: 28px;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(255, 250, 240, 0.96), rgba(246, 242, 234, 0.86));
+            box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 16px 0 12px;
+            font-family: "Fraunces", serif;
+            font-size: clamp(2.4rem, 6vw, 5rem);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+        }
+
+        .lede {
+            max-width: 58ch;
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .hero-aside {
+            padding: 24px;
+            border-radius: 28px;
+            background: #1f2937;
+            color: #f8fafc;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-aside::after {
+            content: "";
+            position: absolute;
+            inset: auto -18% -32% auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.32), transparent 70%);
+        }
+
+        .hero-aside-label {
+            color: rgba(255, 255, 255, 0.68);
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .hero-champion {
+            margin-top: 12px;
+            font-family: "Fraunces", serif;
+            font-size: 2.3rem;
+            line-height: 1;
+        }
+
+        .hero-meta {
+            margin-top: 16px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.96rem;
+        }
+
+        .stats-grid,
+        .content-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-bottom: 20px;
+        }
+
+        .content-grid {
+            grid-template-columns: 1.15fr 0.85fr;
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: var(--panel);
+            backdrop-filter: blur(14px);
+            box-shadow: var(--shadow);
+        }
+
+        .metric-card {
+            padding: 22px 22px 20px;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .metric-value {
+            margin-top: 12px;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            line-height: 1;
+            font-weight: 700;
+        }
+
+        .metric-footnote {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .section {
+            padding: 24px;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: end;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-family: "Fraunces", serif;
+            font-size: 1.7rem;
+            letter-spacing: -0.03em;
+        }
+
+        .section-note {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 40ch;
+        }
+
+        .title-odds-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .title-row {
+            display: grid;
+            grid-template-columns: 140px 1fr 64px;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .title-team {
+            font-weight: 700;
+        }
+
+        .bar {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(17, 94, 89, 0.12);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--gold), var(--accent));
+        }
+
+        .title-pct {
+            text-align: right;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .bracket-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .round-column {
+            padding: 16px;
+            border-radius: 18px;
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+        }
+
+        .round-label {
+            margin: 0 0 12px;
+            color: var(--accent-strong);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .pick-chip {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 11px 12px;
+            margin-bottom: 10px;
+            border-radius: 14px;
+            background: rgba(15, 118, 110, 0.08);
+        }
+
+        .pick-game {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .pick-team {
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .search,
+        .select {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px 14px;
+            font: inherit;
+            background: #fffdf9;
+            color: var(--ink);
+        }
+
+        .search {
+            flex: 1 1 260px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        thead th {
+            text-align: left;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 0 0 12px;
+        }
+
+        tbody td {
+            padding: 14px 0;
+            border-top: 1px solid var(--line);
+            font-size: 0.96rem;
+        }
+
+        tbody tr:first-child td {
+            border-top: 1px solid var(--line);
+        }
+
+        .team-pair {
+            font-weight: 700;
+        }
+
+        .subtle {
+            color: var(--muted);
+        }
+
+        .empty {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(17, 94, 89, 0.06);
+            color: var(--muted);
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(201, 138, 26, 0.12);
+            color: #7c5310;
+            font-size: 0.94rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 980px) {
+            .hero,
+            .content-grid,
+            .stats-grid,
+            .bracket-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="eyebrow">2026 Model Snapshot</div>
+                <h1>March Madness Optimizer</h1>
+                <p class="lede">
+                    A clean front end for the current model output: recommended bracket, title odds, pool strategy
+                    metrics, and the full pairwise matchup matrix.
+                </p>
+            </div>
+            <aside class="hero-aside">
+                <div class="hero-aside-label">Recommended Champion</div>
+                <div class="hero-champion" id="championName">Loading...</div>
+                <div class="hero-meta">
+                    <div class="meta-row"><span>Strategy</span><strong id="strategyValue">-</strong></div>
+                    <div class="meta-row"><span>Expected score</span><strong id="expectedScoreValue">-</strong></div>
+                    <div class="meta-row"><span>Win rate</span><strong id="winRateValue">-</strong></div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="stats-grid">
+            <article class="card metric-card">
+                <div class="metric-label">Top-Decile Rate</div>
+                <div class="metric-value" id="topDecileValue">-</div>
+                <div class="metric-footnote">Chance the bracket finishes in the top 10% of the pool.</div>
+            </article>
+            <article class="card metric-card">
+                <div class="metric-label">Matchup Rows</div>
+                <div class="metric-value" id="matchupCountValue">-</div>
+                <div class="metric-footnote">Every unique pairwise game probability in the current field.</div>
+            </article>
+            <article class="card metric-card">
+                <div class="metric-label">Most Likely Finalist</div>
+                <div class="metric-value" id="favoriteValue">-</div>
+                <div class="metric-footnote">Highest title-odds team from the current run.</div>
+            </article>
+            <article class="card metric-card">
+                <div class="metric-label">Runner-Up Title Odds</div>
+                <div class="metric-value" id="runnerUpValue">-</div>
+                <div class="metric-footnote">Second-highest championship probability in the table.</div>
+            </article>
+        </section>
+
+        <section class="content-grid">
+            <article class="card section">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Recommended Bracket</h2>
+                        <div class="section-note">Current optimized picks grouped by round.</div>
+                    </div>
+                </div>
+                <div class="bracket-grid" id="bracketGrid"></div>
+            </article>
+
+            <article class="card section">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Title Odds</h2>
+                        <div class="section-note">Top championship probabilities from the latest simulation run.</div>
+                    </div>
+                </div>
+                <div class="title-odds-list" id="titleOddsList"></div>
+            </article>
+        </section>
+
+        <section class="card section" style="margin-top: 20px;">
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Matchup Explorer</h2>
+                    <div class="section-note">Search by team name and sort by strongest edge.</div>
+                </div>
+            </div>
+            <div class="toolbar">
+                <input id="teamSearch" class="search" type="search" placeholder="Search team or matchup">
+                <select id="sortMode" class="select">
+                    <option value="strength">Sort by strongest favorite</option>
+                    <option value="alphabetical">Sort alphabetically</option>
+                </select>
+            </div>
+            <div id="matchupContainer"></div>
+            <div id="status" class="status">Loading data...</div>
+        </section>
+    </div>
+
+    <script>
+        const roundLabels = {
+            E: "East",
+            W: "West",
+            S: "South",
+            M: "Midwest",
+            F: "Final Four",
+            C: "Championship"
+        };
+
+        const roundOrder = ["E", "W", "S", "M", "F", "C"];
+
+        function percentage(value) {
+            return `${(value * 100).toFixed(1)}%`;
+        }
+
+        function safeText(value) {
+            return String(value ?? "");
+        }
+
+        function flattenTitleOdds(entries) {
+            return entries.map((entry) => {
+                const [team, probability] = Object.entries(entry)[0];
+                return { team, probability };
+            });
+        }
+
+        function renderTitleOdds(entries) {
+            const container = document.getElementById("titleOddsList");
+            container.innerHTML = "";
+            entries.forEach(({ team, probability }) => {
+                const row = document.createElement("div");
+                row.className = "title-row";
+                row.innerHTML = `
+                    <div class="title-team">${safeText(team)}</div>
+                    <div class="bar"><div class="bar-fill" style="width:${Math.max(probability * 100, 1)}%"></div></div>
+                    <div class="title-pct">${percentage(probability)}</div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function renderBracket(bracket) {
+            const grid = document.getElementById("bracketGrid");
+            grid.innerHTML = "";
+            const grouped = {};
+            Object.entries(bracket).forEach(([gameId, team]) => {
+                const key = gameId[0];
+                if (!grouped[key]) grouped[key] = [];
+                grouped[key].push({ gameId, team });
+            });
+
+            roundOrder.forEach((key) => {
+                const entries = grouped[key];
+                if (!entries || !entries.length) return;
+                const column = document.createElement("div");
+                column.className = "round-column";
+                column.innerHTML = `<h3 class="round-label">${roundLabels[key] || key}</h3>`;
+                entries.forEach(({ gameId, team }) => {
+                    const chip = document.createElement("div");
+                    chip.className = "pick-chip";
+                    chip.innerHTML = `
+                        <div class="pick-game">${safeText(gameId)}</div>
+                        <div class="pick-team">${safeText(team)}</div>
+                    `;
+                    column.appendChild(chip);
+                });
+                grid.appendChild(column);
+            });
+        }
+
+        function sortMatchups(rows, sortMode) {
+            const sorted = [...rows];
+            if (sortMode === "alphabetical") {
+                sorted.sort((a, b) => {
+                    const left = `${a.team_a} ${a.team_b}`.toLowerCase();
+                    const right = `${b.team_a} ${b.team_b}`.toLowerCase();
+                    return left.localeCompare(right);
+                });
+                return sorted;
+            }
+
+            sorted.sort((a, b) => {
+                const left = Math.abs(a.team_a_win_probability - 0.5);
+                const right = Math.abs(b.team_a_win_probability - 0.5);
+                return right - left;
+            });
+            return sorted;
+        }
+
+        function renderMatchups(rows) {
+            const query = document.getElementById("teamSearch").value.trim().toLowerCase();
+            const sortMode = document.getElementById("sortMode").value;
+            const filtered = sortMatchups(rows, sortMode).filter((row) => {
+                if (!query) return true;
+                return `${row.team_a} ${row.team_b}`.toLowerCase().includes(query);
+            });
+
+            const container = document.getElementById("matchupContainer");
+            if (!filtered.length) {
+                container.innerHTML = `<div class="empty">No matchups match that search.</div>`;
+                return;
+            }
+
+            const limited = filtered.slice(0, 40);
+            const table = document.createElement("table");
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Matchup</th>
+                        <th>Favorite</th>
+                        <th>Win Prob.</th>
+                        <th>Other Side</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${limited.map((row) => {
+                        const teamAFavored = row.team_a_win_probability >= 0.5;
+                        const favorite = teamAFavored ? row.team_a : row.team_b;
+                        const favoriteProb = teamAFavored ? row.team_a_win_probability : row.team_b_win_probability;
+                        const underdog = teamAFavored ? row.team_b : row.team_a;
+                        return `
+                            <tr>
+                                <td class="team-pair">${safeText(row.team_a)} <span class="subtle">vs</span> ${safeText(row.team_b)}</td>
+                                <td>${safeText(favorite)}</td>
+                                <td>${percentage(favoriteProb)}</td>
+                                <td class="subtle">${safeText(underdog)}</td>
+                            </tr>
+                        `;
+                    }).join("")}
+                </tbody>
+            `;
+            container.innerHTML = "";
+            container.appendChild(table);
+        }
+
+        async function loadData() {
+            const status = document.getElementById("status");
+            try {
+                const [runResponse, matchupResponse] = await Promise.all([
+                    fetch("./latest_run.json"),
+                    fetch("./matchup_probs.json")
+                ]);
+
+                if (!runResponse.ok || !matchupResponse.ok) {
+                    throw new Error("Could not load JSON files.");
+                }
+
+                const run = await runResponse.json();
+                const matchups = await matchupResponse.json();
+                const titleOdds = flattenTitleOdds(run.title_odds_top_10);
+                const champion = run.recommended_bracket.C1 || titleOdds[0]?.team || "Unknown";
+
+                document.getElementById("championName").textContent = champion;
+                document.getElementById("strategyValue").textContent = safeText(run.strategy);
+                document.getElementById("expectedScoreValue").textContent = safeText(run.expected_score);
+                document.getElementById("winRateValue").textContent = percentage(run.win_rate);
+                document.getElementById("topDecileValue").textContent = percentage(run.top_decile_rate);
+                document.getElementById("matchupCountValue").textContent = safeText(matchups.length);
+                document.getElementById("favoriteValue").textContent = safeText(titleOdds[0]?.team || "-");
+                document.getElementById("runnerUpValue").textContent = percentage(titleOdds[1]?.probability || 0);
+
+                renderTitleOdds(titleOdds);
+                renderBracket(run.recommended_bracket);
+                renderMatchups(matchups);
+
+                document.getElementById("teamSearch").addEventListener("input", () => renderMatchups(matchups));
+                document.getElementById("sortMode").addEventListener("change", () => renderMatchups(matchups));
+
+                status.textContent = "Loaded latest_run.json and matchup_probs.json successfully.";
+            } catch (error) {
+                console.error(error);
+                status.textContent = "This page expects to be served over HTTP so it can fetch latest_run.json and matchup_probs.json. It will work on GitHub Pages or any local static server.";
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
